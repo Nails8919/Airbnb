@@ -1,12 +1,12 @@
 import { listingsCollection } from './mymongo.js'
 
-const readlistings = (res) => {
+const readlistings = (res, skip = 0) => {
     listingsCollection
         .find(
             {},
             {
                 limit: 17,
-                skip: 300,
+                skip: skip,
                 sort: { number_of_reviews: -1 },
                 projection: {
                     accommodates: 1,

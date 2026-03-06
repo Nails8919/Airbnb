@@ -14,16 +14,17 @@ app.get('/', (req, res) => {
 })
 
 app.get('/listings', (req, res) => {
-    const pageSize = 17
-    readlistings(res, pageSize)
+    readlistings(res, 0)
 })
 
 app.get('/listings/:page', (req, res) => {
     const pageSize = 17
     let page = req.params.page
+    
     if (isNaN(page) || page < 1) {
         res.status(400).json({ error: 'Invalid page number' })
-    } else {
-        readlistings(res, (page - 1) * pageSize)
-    }
+        return
+    } 
+    page = (page - 1) * pageSize
+        readlistings(res, page)
 })
