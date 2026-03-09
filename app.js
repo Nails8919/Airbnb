@@ -2,6 +2,7 @@
 import express from 'express'
 import { PORT } from './config.js'
 import { readlistings } from './readlisting.js'
+import { detailslistings } from './detailslistings.js'
 
 // Create an instance of the Express application
 const app = express()
@@ -32,4 +33,8 @@ app.get('/listings/:page', (req, res) => {
     } 
     page = (page - 1) * pageSize
         readlistings(res, page)
+})
+
+app.get('/detailslistings/:id', (res) => {
+    detailslistings(res, id)
 })
