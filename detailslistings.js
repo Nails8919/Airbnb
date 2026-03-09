@@ -1,5 +1,6 @@
 // library imports
 import { listingsCollection } from './mymongo.js';
+import { ObjectId } from 'mongodb';
 
 // Function to read detailed information about a specific listing from the database
 const detailslistings = (res, id) => {
