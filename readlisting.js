@@ -1,3 +1,4 @@
+// library imports
 import { listingsCollection } from './mymongo.js'
 
 // Function to read listings from the database with pagination
@@ -43,5 +44,5 @@ const readlistings = (res, skip = 0) => {
         })
 }
 
-
+// Export the readlistings function for use in other modules
 export { readlistings }
