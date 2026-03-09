@@ -35,6 +35,7 @@ app.get('/listings/:page', (req, res) => {
         readlistings(res, page)
 })
 
-app.get('/detailslistings/:id', (res) => {
+app.get('/listings/:id', (req, res) => {
+    const id = req.params.id
     detailslistings(res, id)
 })

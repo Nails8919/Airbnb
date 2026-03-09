@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb';
 // Function to read detailed information about a specific listing from the database
 const detailslistings = (res, id) => {
     listingsCollection
-        .findOne({ _id: new ObjectId(id) })
+        .findOne({ _id: new ObjectId(id) }) // Query object to find a document by its unique ID
         // Use of projection to specify which fields to include in the result
         .projection({
             listing_url: 1,
@@ -42,8 +42,8 @@ const detailslistings = (res, id) => {
                     number_of_nights = `${minnights} to ${maxnights} nights`;
                 }
             }
-            res.json(listing);
         });
+        res.json(listing);
 };
 
 export { detailslistings };
