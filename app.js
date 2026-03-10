@@ -35,7 +35,11 @@ app.get('/listings/:page', (req, res) => {
         readlistings(res, page)
 })
 
-app.get('/listings/:id', (req, res) => {
+app.get('/details/:id', (req, res) => {
     const id = req.params.id
+    if (isNaN(id)) {
+        res.status(400).json({ error: 'Invalid ID' })
+        return
+    }
     detailslistings(res, id)
 })
