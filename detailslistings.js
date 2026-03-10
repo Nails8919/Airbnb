@@ -46,7 +46,6 @@ const detailslistings = (res, id) => {
             }
             res.json(results); // Send the formatted results as a JSON response
         })
-        // res.json({message:"details"}); // Send the formatted results as a JSON response
 }
 
-export { detailslistings }
+export { detailslistings } // Export the detailslistings function for use in other modules
