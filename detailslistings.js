@@ -7,7 +7,7 @@ const detailslistings = (res, id) => {
         // Query object to find a document by its unique ID
         .findOne(
             { _id: id },
-            // Use of projection to specify which fields to include in the result
+            // Use of projection to specify which fields to include in the result(1 for include, 0 for exclusion)
             {
                 projection: {
                     listing_url: 1,
