@@ -22,7 +22,7 @@ const detailslistings = (res, id) => {
                     picture_url: 1,
                     cancel_policy: 1,
                     minimum_nights: 1,
-                    maximum_nights:1,
+                    maximum_nights: 1,
                     host: {
                         host_name: 1,
                         host_url: 1,
@@ -34,22 +34,14 @@ const detailslistings = (res, id) => {
                     reviews: 1
                 }
             })
-
-
-        .then(results => {// Handle the result of the query (promise)
+        // Handle the result of the query (promise)
+        .then(results => {
             if (!results) {
                 res.status(400).json({ error: 'ID not found' });
                 return;
             }
             // Format the results based on the conditions
-            // for (let doc of results) {
-            // if (doc.number_of_nights) {
-            // let minnights = results.minimum_nights;
-            // let maxnights = results.maximum_nights;
-            // if (results.minimum_nights == 0 && results.maximum_nights){
-                results.number_of_nights = `${results.minimum_nights} to ${results.maximum_nights} nights`;
-                // delete results.minimum_nights && results.maximum_nights
-            // }
+            results.number_of_nights = `${results.minimum_nights} to ${results.maximum_nights} nights`;
             res.json(results); // Send the formatted results as a JSON response
         })
 }
