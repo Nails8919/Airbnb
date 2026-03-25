@@ -43,3 +43,7 @@ app.get('/details/:id', (req, res) => {
     }
     detailslistings(res, id)
 })
+
+app.get('/search', (req, res) => {
+    searchListings(res)
+})
