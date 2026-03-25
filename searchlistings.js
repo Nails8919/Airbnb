@@ -1,14 +1,15 @@
-import { listingsCollection } from "./mymongo"
+import { listingsCollection } from "./mymongo.js"
 
 
-const searchListings = () => {
+const searchListings = (res, query) => {
     listingsCollection
-    .findOne({
-        minimum_nights: { $lte: 5 },
-        maximum_nights: { $gte: 10 }
-
+    .find({
+        minimum_nights: { $gte: query}
+        // maximum_nights: { $gte: 10 }
     },
      {
+        limit:10,
+
         projection: {
             _id: 1,
             name: 1,
@@ -21,9 +22,13 @@ const searchListings = () => {
             price: 1
         }
     })
+    .toArray()
     .then(listing => {
         if (!listing) {
-
+            res.status(404).json({ error: 'Listing not found' })    
         }
+        res.json(listing)
     })
 }
+
+export { searchListings }

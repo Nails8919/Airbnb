@@ -3,6 +3,7 @@ import express from 'express'
 import { PORT } from './config.js'
 import { readlistings } from './readlisting.js'
 import { detailslistings } from './detailslistings.js'
+import { searchListings } from './searchlistings.js'
 
 // Create an instance of the Express application
 const app = express()
@@ -44,6 +45,11 @@ app.get('/details/:id', (req, res) => {
     detailslistings(res, id)
 })
 
-app.get('/search', (req, res) => {
-    searchListings(res)
+app.get('/search/:query', (req, res) => {
+    const query = req.params.query
+    if (!query) {
+        res.status(400).json({ error: 'Query parameter is required' })
+        return
+    }
+    searchListings(res, query)
 })
