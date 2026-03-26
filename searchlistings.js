@@ -5,11 +5,11 @@ import { listingsCollection } from "./mymongo.js"
 const searchListings = (res, query) => {
     // Created a MongoDB query object based on the search query
     const mongoQuery = {};
-    const numericValue = Number(query);
+    // const numericValue = Number(query);
 
     //Case 1 (type of search query)
-    if (!isNaN(numericValue)) {
-        mongoQuery.minimum_nights = { $lte: numericValue };
+    if (!isNaN(query)) {
+        mongoQuery.minimum_nights = { $lte: query };
     }
     else {
         //Case 2 (Second type of search query)
@@ -27,22 +27,23 @@ const searchListings = (res, query) => {
                 limit: 10,
                 // Specified the fields to include in the search results
                 projection: {
-                    _id: 1,
-                    name: 1,
-                    summary: 1,
-                    address: 1,
-                    property_type: 1,
-                    reviews: 1,
-                    score: 1,
-                    rating: 1,
-                    price: 1
+                    // _id: 1,
+                    // name: 1,
+                    // summary: 1,
+                    // address: 1,
+                    // property_type: 1,
+                    // reviews: 1,
+                    // score: 1,
+                    // rating: 1,
+                    // price: 1,
+                    minimum_nights: 1
                 }
             })
         // Convert the cursor to an array and handle the results
         .toArray()
         // Send the search results back to the client as a JSON response
         .then(listing => {
-            if (!listing || listing.length === 0) {
+            if (!listing || listing.length == 0) {
                 res.status(404).json({ error: 'Listing not found' })
             } else {
                 res.json(listing)
