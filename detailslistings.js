@@ -36,6 +36,7 @@ const detailslistings = (res, id) => {
             })
         // Handle the result of the query (promise)
         .then(results => {
+            //error handling for listing ID not found in the database
             if (!results) {
                 res.status(400).json({ error: 'ID not found' });
                 return;
