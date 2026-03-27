@@ -4,18 +4,17 @@ import { listingsCollection } from "./mymongo.js"
 // Function to search listings based on a query
 const searchListings = (res, query) => {
     // Created a MongoDB query object based on the search query
-    const mongoQuery = {};
-    const value = Number(query);
+    const mongoQuery = {}; 
+    const value = Number(query); // Convert the query to a number for comparison in case it's a numeric search query
 
     //Case 1 (type of search query)
-    if (!isNaN(query)) {
-        mongoQuery.$expr = {
-            $lte: [
-                { $toInt: "$minimum_nights" },
-                value
+    if (!isNaN(query)) { // Check if the query is a number (not NaN)
+        mongoQuery.$expr = { // $expr allows us to evaluate expressions in the query
+            $lte: [  // this operator checks if the first value is less than or equal to the second value
+                { $toInt: "$minimum_nights" }, // Converts the minimum_nights field to an integer for comparison
+                value // Compares the converted field above with the query to return listings that is requested by the client
             ]
         };
-        // mongoQuery.minimum_nights = { $lte: value }; // Searches for listings with minimum_nights less than or equal to the query value
     }
     else {
         //Case 2 (Second type of search query)
@@ -27,7 +26,7 @@ const searchListings = (res, query) => {
 
     // Query for the MongoDB collection to find listings that match the search query
     listingsCollection
-    // find method usining the mongoQuery and its specifications on what fields to return in the results using projection.
+        // find method using the mongoQuery and its specifications on what fields to return in the results using projection.
         .find(mongoQuery, {
             projection: {
                 _id: 1,
