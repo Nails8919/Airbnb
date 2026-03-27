@@ -5,11 +5,17 @@ import { listingsCollection } from "./mymongo.js"
 const searchListings = (res, query) => {
     // Created a MongoDB query object based on the search query
     const mongoQuery = {};
-    // const numericValue = Number(query);
+    const value = Number(query);
 
     //Case 1 (type of search query)
     if (!isNaN(query)) {
-        mongoQuery.minimum_nights = { $lte: query };
+        mongoQuery.$expr = {
+            $lte: [
+                { $toInt: "$minimum_nights" },
+                value
+            ]
+        };
+        // mongoQuery.minimum_nights = { $lte: value }; // Searches for listings with minimum_nights less than or equal to the query value
     }
     else {
         //Case 2 (Second type of search query)
@@ -21,24 +27,22 @@ const searchListings = (res, query) => {
 
     // Query for the MongoDB collection to find listings that match the search query
     listingsCollection
-        .find(mongoQuery,
-            {
-                // limited the results on search query!
-                limit: 10,
-                // Specified the fields to include in the search results
-                projection: {
-                    // _id: 1,
-                    // name: 1,
-                    // summary: 1,
-                    // address: 1,
-                    // property_type: 1,
-                    // reviews: 1,
-                    // score: 1,
-                    // rating: 1,
-                    // price: 1,
-                    minimum_nights: 1
-                }
-            })
+    // find method usining the mongoQuery and its specifications on what fields to return in the results using projection.
+        .find(mongoQuery, {
+            projection: {
+                _id: 1,
+                name: 1,
+                summary: 1,
+                address: 1,
+                property_type: 1,
+                reviews: 1,
+                score: 1,
+                rating: 1,
+                price: 1,
+                minimum_nights: 1
+            }
+        })
+        .limit(10) // Limit the number of results to 10
         // Convert the cursor to an array and handle the results
         .toArray()
         // Send the search results back to the client as a JSON response
